@@ -1,0 +1,9 @@
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\bin\Debug\netcoreapp1.1\FilmwebParser.deps.json
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\bin\Debug\netcoreapp1.1\FilmwebParser.runtimeconfig.json
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\bin\Debug\netcoreapp1.1\FilmwebParser.runtimeconfig.dev.json
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\bin\Debug\netcoreapp1.1\FilmwebParser.dll
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\bin\Debug\netcoreapp1.1\FilmwebParser.pdb
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\obj\Debug\netcoreapp1.1\FilmwebParser.csprojResolveAssemblyReference.cache
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\obj\Debug\netcoreapp1.1\FilmwebParser.AssemblyInfo.cs
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\obj\Debug\netcoreapp1.1\FilmwebParser.dll
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\obj\Debug\netcoreapp1.1\FilmwebParser.pdb
