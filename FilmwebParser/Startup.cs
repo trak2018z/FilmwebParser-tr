@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace FilmwebParser
 {
@@ -9,12 +8,22 @@ namespace FilmwebParser
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseDefaultFiles();
+            if (env.IsEnvironment("Development"))
+                app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
+            app.UseMvc(config =>
+            {
+                config.MapRoute(
+                    name: "Default",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "App", action = "Index" }
+                    );
+            });
         }
     }
 }
