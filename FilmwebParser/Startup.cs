@@ -1,8 +1,10 @@
-﻿using FilmwebParser.Services;
+﻿using FilmwebParser.Models;
+using FilmwebParser.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FilmwebParser
 {
@@ -25,13 +27,22 @@ namespace FilmwebParser
             services.AddSingleton(_config);
             if (_env.IsEnvironment("Development"))
                 services.AddScoped<IMailService, DebugMailService>();
+            services.AddDbContext<FilmContext>();
+            services.AddScoped<IFilmRepository, FilmRepository>();
+            services.AddTransient<FilmContextSeedData>();
+            services.AddLogging();
             services.AddMvc();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, FilmContextSeedData seeder, ILoggerFactory factory)
         {
             if (env.IsEnvironment("Development"))
+            {
                 app.UseDeveloperExceptionPage();
+                factory.AddDebug(LogLevel.Information);
+            }
+            else
+                factory.AddDebug(LogLevel.Error);
             app.UseStaticFiles();
             app.UseMvc(config =>
             {
@@ -41,6 +52,7 @@ namespace FilmwebParser
                     defaults: new { controller = "App", action = "Index" }
                     );
             });
+            seeder.EnsureSeedData().Wait();
         }
     }
 }
