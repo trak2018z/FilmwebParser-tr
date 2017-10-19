@@ -1,10 +1,13 @@
-﻿using FilmwebParser.Models;
+﻿using AutoMapper;
+using FilmwebParser.Models;
 using FilmwebParser.Services;
+using FilmwebParser.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 
 namespace FilmwebParser
 {
@@ -31,11 +34,19 @@ namespace FilmwebParser
             services.AddScoped<IFilmRepository, FilmRepository>();
             services.AddTransient<FilmContextSeedData>();
             services.AddLogging();
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(config =>
+                {
+                    config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, FilmContextSeedData seeder, ILoggerFactory factory)
         {
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<FilmViewModel, Film>().ReverseMap();
+            });
             if (env.IsEnvironment("Development"))
             {
                 app.UseDeveloperExceptionPage();
