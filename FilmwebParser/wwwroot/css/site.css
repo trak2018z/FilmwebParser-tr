@@ -42,3 +42,11 @@
         margin-left: 0;
         transition: margin-left ease .25s;
     }
+
+#sidebarToggle {
+    margin-left: -15px;
+    height: 60px;
+    border-radius: 0;
+    background-color: #2A2D34;
+    border: 0;
+}

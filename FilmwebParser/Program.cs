@@ -14,7 +14,6 @@ namespace FilmwebParser
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .Build();
-
             host.Run();
         }
     }

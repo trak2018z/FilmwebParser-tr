@@ -32,7 +32,7 @@ namespace FilmwebParser.Controllers.Web
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get films in Index page: {ex.Message}");
+                _logger.LogError($"Błąd podczas pobierania historii filmów: {ex.Message}");
                 return Redirect("/error");
             }
         }
@@ -57,6 +57,11 @@ namespace FilmwebParser.Controllers.Web
         }
 
         public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult Settings()
         {
             return View();
         }

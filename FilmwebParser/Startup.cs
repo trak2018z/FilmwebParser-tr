@@ -30,7 +30,9 @@ namespace FilmwebParser
             services.AddSingleton(_config);
             if (_env.IsEnvironment("Development"))
                 services.AddScoped<IMailService, DebugMailService>();
+            services.AddScoped<IParserService, FilmParserService>();
             services.AddDbContext<FilmContext>();
+            services.AddTransient<ParseLinkResult>();
             services.AddScoped<IFilmRepository, FilmRepository>();
             services.AddTransient<FilmContextSeedData>();
             services.AddLogging();

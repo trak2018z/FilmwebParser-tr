@@ -7,7 +7,6 @@ namespace FilmwebParser.Models
     {
         private IConfigurationRoot _config;
         public DbSet<Film> Films { get; set; }
-        public DbSet<FilmDetail> FilmDetails { get; set; }
 
         public FilmContext(IConfigurationRoot config, DbContextOptions options)
             : base(options)

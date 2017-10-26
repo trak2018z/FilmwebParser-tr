@@ -6,8 +6,10 @@ namespace FilmwebParser.ViewModels
     public class FilmViewModel
     {
         [Required]
-        [StringLength(100, MinimumLength = 5)]
-        public string Name { get; set; }
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public string Link { get; set; }
+        public DateTime DateAdded { get; set; } = DateTime.UtcNow;
+        public string Title { get; set; }
+        public int Year { get; set; }
+        public string Cover { get; set; }
     }
 }

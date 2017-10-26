@@ -23,8 +23,15 @@ namespace FilmwebParser.Models
 
         public IEnumerable<Film> GetAllFilms()
         {
-            _logger.LogInformation("Getting all films from the database");
+            _logger.LogInformation("Pobieranie wszystkich filmów z bazy danych");
             return _context.Films.ToList();
+        }
+
+        public Film GetFilmByTitle(string filmTitle)
+        {
+            return _context.Films
+                .Where(t => t.Title == filmTitle)
+                .FirstOrDefault();
         }
 
         public async Task<bool> SaveChangesAsync()

@@ -22,18 +22,23 @@
                 <span asp-validation-for="Name" class="text-muted"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email">E-mail</label>
+                <label asp-for="Email">Adres e-mail</label>
                 <input type="email" asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-muted"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Message">Wiadomość</label>
+                <label asp-for="Subject">Temat wiadomości</label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-muted"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message">Treść wiadomości</label>
                 <textarea cols="40" rows="4" asp-for="Message" class="form-control"></textarea>
                 <span asp-validation-for="Message" class="text-muted"></span>
             </div>
             <div class="form-group">
                 <a asp-controller="App" asp-action="Index" class="btn btn-default">Anuluj</a>
-                <input type="submit" value="Wyślij wiadomość" class="btn btn-success" />
+                <input type="submit" value="Wyślij" class="btn btn-success" />
             </div>
         </form>
     </div>

@@ -21,44 +21,21 @@ namespace FilmwebParser.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateAdded");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Films");
-                });
-
-            modelBuilder.Entity("FilmwebParser.Models.FilmDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("Cover");
 
-                    b.Property<int?>("FilmId");
+                    b.Property<DateTime>("DateAdded");
 
-                    b.Property<int>("Order");
+                    b.Property<string>("Link");
 
                     b.Property<string>("Title");
+
+                    b.Property<string>("UserName");
 
                     b.Property<int>("Year");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FilmId");
-
-                    b.ToTable("FilmDetails");
-                });
-
-            modelBuilder.Entity("FilmwebParser.Models.FilmDetail", b =>
-                {
-                    b.HasOne("FilmwebParser.Models.Film")
-                        .WithMany("FilmDetails")
-                        .HasForeignKey("FilmId");
+                    b.ToTable("Films");
                 });
         }
     }
