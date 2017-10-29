@@ -1,6 +1,7 @@
 ﻿using FilmwebParser.Models;
 using FilmwebParser.Services;
 using FilmwebParser.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,12 @@ namespace FilmwebParser.Controllers.Web
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult Films()
         {
             try
             {

@@ -2,6 +2,7 @@
 using FilmwebParser.Models;
 using FilmwebParser.Services;
 using FilmwebParser.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace FilmwebParser.Controllers.Api
 {
     [Route("api/films")]
+    [Authorize]
     public class FilmsController : Controller
     {
         private IFilmRepository _repository;
@@ -29,7 +31,7 @@ namespace FilmwebParser.Controllers.Api
         {
             try
             {
-                var results = _repository.GetAllFilms();
+                var results = _repository.GetFilmsByUsername(User.Identity.Name);
                 return Ok(Mapper.Map<IEnumerable<FilmViewModel>>(results));
             }
             catch (Exception ex)
@@ -55,6 +57,7 @@ namespace FilmwebParser.Controllers.Api
                         newFilm.Title = result.Title;
                         newFilm.Year = result.Year;
                         newFilm.Cover = result.Cover;
+                        newFilm.UserName = User.Identity.Name;
                         _repository.AddFilm(newFilm);
                         if (await _repository.SaveChangesAsync())
                             return Created($"api/films/{newFilm.Title}", Mapper.Map<FilmViewModel>(newFilm));

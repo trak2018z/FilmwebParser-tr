@@ -2,12 +2,16 @@
 using FilmwebParser.Models;
 using FilmwebParser.Services;
 using FilmwebParser.ViewModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace FilmwebParser
 {
@@ -36,11 +40,33 @@ namespace FilmwebParser
             services.AddScoped<IFilmRepository, FilmRepository>();
             services.AddTransient<FilmContextSeedData>();
             services.AddLogging();
-            services.AddMvc()
+            services
+                .AddMvc(config =>
+                {
+                    if (_env.IsProduction())
+                        config.Filters.Add(new RequireHttpsAttribute());
+                })
                 .AddJsonOptions(config =>
                 {
                     config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
+            services.AddIdentity<FilmUser, IdentityRole>(config =>
+            {
+                config.User.RequireUniqueEmail = true;
+                config.Password.RequiredLength = 8;
+                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
+                config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = async ctx =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                            ctx.Response.StatusCode = 401;
+                        else
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        await Task.Yield();
+                    }
+                };
+            }).AddEntityFrameworkStores<FilmContext>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, FilmContextSeedData seeder, ILoggerFactory factory)
@@ -57,6 +83,7 @@ namespace FilmwebParser
             else
                 factory.AddDebug(LogLevel.Error);
             app.UseStaticFiles();
+            app.UseIdentity();
             app.UseMvc(config =>
             {
                 config.MapRoute(

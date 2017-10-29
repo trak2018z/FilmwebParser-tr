@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace FilmwebParser.Models
 {
-    public class FilmContext : DbContext
+    public class FilmContext : IdentityDbContext<FilmUser>
     {
         private IConfigurationRoot _config;
         public DbSet<Film> Films { get; set; }

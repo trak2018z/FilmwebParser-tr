@@ -34,6 +34,11 @@ namespace FilmwebParser.Models
                 .FirstOrDefault();
         }
 
+        public IEnumerable<Film> GetFilmsByUsername(string name)
+        {
+            return _context.Films.Where(t => t.UserName == name).ToList();
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             return (await _context.SaveChangesAsync()) > 0;
