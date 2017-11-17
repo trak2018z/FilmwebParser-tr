@@ -1,25 +1,15 @@
-﻿@model IEnumerable<FilmwebParser.Models.Film>
-@{
-    ViewBag.Title = "Strona główna";
+﻿@{
+    ViewBag.Title = "Parser";
+}
+@section Scripts{
+    <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/angular-route/angular-route.min.js"></script>
+    <script src="~/js/simpleControls.js"></script>
+    <script src="~/js/app-films.js"></script>
+    <script src="~/js/filmsController.js"></script>
+    <script src="~/js/filmDetailController.js"></script>
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <h2>Tu wklej link</h2>
-        <form>
-            <div class="form-group">
-                <input class="form-control" />
-            </div>
-            <div><input type="submit" value="Rozpocznij przetwarzanie" class="btn btn-success" /></div>
-        </form>
-    </div>
-    <div class="col-md-6">
-        <h2>Historia</h2>
-        <ul>
-            @foreach (var item in Model)
-            {
-                <li>@item.Title: @item.DateAdded.ToString("d")</li>
-            }
-        </ul>
-    </div>
+<div class="row" ng-app="app-films">
+    <div ng-view></div>
 </div>
