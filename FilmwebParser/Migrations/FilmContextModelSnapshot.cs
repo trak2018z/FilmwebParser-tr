@@ -1,8 +1,9 @@
-﻿using FilmwebParser.Models;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using FilmwebParser.Models;
 
 namespace FilmwebParser.Migrations
 {

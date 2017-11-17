@@ -21,12 +21,6 @@ namespace FilmwebParser.Models
             _context.Add(film);
         }
 
-        public IEnumerable<Film> GetAllFilms()
-        {
-            _logger.LogInformation("Pobieranie wszystkich filmów z bazy danych");
-            return _context.Films.ToList();
-        }
-
         public Film GetFilmByTitle(string filmTitle)
         {
             return _context.Films

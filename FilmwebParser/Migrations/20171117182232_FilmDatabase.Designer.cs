@@ -8,8 +8,8 @@ using FilmwebParser.Models;
 namespace FilmwebParser.Migrations
 {
     [DbContext(typeof(FilmContext))]
-    [Migration("20171029115552_IdentityDatabase")]
-    partial class IdentityDatabase
+    [Migration("20171117182232_FilmDatabase")]
+    partial class FilmDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

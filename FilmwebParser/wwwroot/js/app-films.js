@@ -7,7 +7,7 @@
                 controllerAs: "vm",
                 templateUrl: "/views/filmsView.html"
             });
-            $routeProvider.when("/details", {
+            $routeProvider.when("/details/:title", {
                 controller: "filmDetailController",
                 controllerAs: "vm",
                 templateUrl: "/views/filmDetailView.html"

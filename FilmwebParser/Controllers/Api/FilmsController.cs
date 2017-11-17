@@ -41,6 +41,21 @@ namespace FilmwebParser.Controllers.Api
             }
         }
 
+        [HttpGet("{title}")]
+        public IActionResult Get(string title)
+        {
+            try
+            {
+                var results = _repository.GetFilmByTitle(title);
+                return Ok(Mapper.Map<FilmViewModel>(results));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Błąd podczas pobierania filmów: {ex}");
+                return BadRequest("Wystąpił błąd podczas pobierania filmów");
+            }
+        }
+
         [HttpPost("")]
         public async Task<IActionResult> Post([FromBody]FilmViewModel theFilm)
         {

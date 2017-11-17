@@ -13,7 +13,6 @@
     <Content Include="wwwroot\js\simpleControls.js" />
     <Content Include="wwwroot\js\site.js" />
     <Content Include="wwwroot\views\filmDetailView.html" />
-    <Content Include="wwwroot\views\filmsParser.html" />
     <Content Include="wwwroot\views\filmsView.html" />
     <Content Include="wwwroot\views\waitCursor.html" />
   </ItemGroup>
