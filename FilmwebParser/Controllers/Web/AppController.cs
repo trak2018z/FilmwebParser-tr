@@ -4,8 +4,6 @@ using FilmwebParser.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace FilmwebParser.Controllers.Web
 {
@@ -14,14 +12,12 @@ namespace FilmwebParser.Controllers.Web
         private IMailService _mailService;
         private IConfigurationRoot _config;
         private IFilmRepository _repository;
-        private ILogger<AppController> _logger;
 
-        public AppController(IMailService mailService, IConfigurationRoot config, IFilmRepository repository, ILogger<AppController> logger)
+        public AppController(IMailService mailService, IConfigurationRoot config, IFilmRepository repository)
         {
             _mailService = mailService;
             _config = config;
             _repository = repository;
-            _logger = logger;
         }
 
         public IActionResult Index()

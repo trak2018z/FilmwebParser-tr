@@ -13,7 +13,7 @@
                 angular.copy(response.data, vm.films);
             },
             function (error) {
-                vm.errorMessage = "Wystąpił błąd podczas pobierania danych: " + error;
+                vm.errorMessage = "Wystąpił błąd podczas pobierania listy filmów: " + error;
             })
             .finally(function () {
                 vm.isBusy = false;
@@ -27,7 +27,7 @@
                     vm.newFilm = {};
                 },
                 function (error) {
-                    vm.errorMessage = "Wystąpił błąd podczas zapisywania danych: " + error;
+                    vm.errorMessage = "Wystąpił błąd podczas zapisywania filmu: " + error;
                 })
                 .finally(function () {
                     vm.isBusy = false;

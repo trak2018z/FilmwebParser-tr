@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -39,7 +38,6 @@ namespace FilmwebParser
             services.AddTransient<ParseLinkResult>();
             services.AddScoped<IFilmRepository, FilmRepository>();
             services.AddTransient<FilmContextSeedData>();
-            services.AddLogging();
             services
                 .AddMvc(config =>
                 {
@@ -69,19 +67,14 @@ namespace FilmwebParser
             }).AddEntityFrameworkStores<FilmContext>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, FilmContextSeedData seeder, ILoggerFactory factory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, FilmContextSeedData seeder)
         {
             Mapper.Initialize(config =>
             {
                 config.CreateMap<FilmViewModel, Film>().ReverseMap();
             });
             if (env.IsEnvironment("Development"))
-            {
                 app.UseDeveloperExceptionPage();
-                factory.AddDebug(LogLevel.Information);
-            }
-            else
-                factory.AddDebug(LogLevel.Error);
             app.UseStaticFiles();
             app.UseIdentity();
             app.UseMvc(config =>
@@ -92,7 +85,7 @@ namespace FilmwebParser
                     defaults: new { controller = "App", action = "Index" }
                     );
             });
-            seeder.EnsureSeedData().Wait();
+            //seeder.EnsureSeedData().Wait();
         }
     }
 }

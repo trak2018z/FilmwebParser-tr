@@ -1,5 +1,4 @@
 ﻿using HtmlAgilityPack;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
@@ -7,19 +6,12 @@ namespace FilmwebParser.Services
 {
     public class FilmParserService : IParserService
     {
-        private ILogger<FilmParserService> _logger;
-
-        public FilmParserService(ILogger<FilmParserService> logger)
-        {
-            _logger = logger;
-        }
-
         public ParseLinkResult ParseLink(string link)
         {
             var result = new ParseLinkResult()
             {
                 Success = false,
-                Message = "Failed"
+                Message = "BŁĄD"
             };
             HtmlWeb web = new HtmlWeb();
             HtmlDocument document = web.Load(link);

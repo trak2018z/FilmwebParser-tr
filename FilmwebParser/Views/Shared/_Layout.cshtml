@@ -13,18 +13,25 @@
 
         @if (User.Identity.IsAuthenticated)
         {
-            <img src="~/img/logo.jpg" alt="logo" class="logo" />
+            <img src="~/img/defaultAvatar.png" alt="avatar" class="avatar" />
             <span id="username">@User.Identity.Name</span>
         }
         <ul class="nav">
             <li class="active"><a asp-controller="App" asp-action="Index">Strona główna</a></li>
-            <li><a asp-controller="App" asp-action="Settings">Ustawienia</a></li>
-            <li><a asp-controller="App" asp-action="About">Pomoc</a></li>
-            <li><a asp-controller="App" asp-action="Contact">Kontakt</a></li>
             @if (User.Identity.IsAuthenticated)
             {
                 <li><a asp-controller="App" asp-action="Films">Filmy</a></li>
+                <li><a asp-controller="App" asp-action="Settings">Ustawienia</a></li>
+                <li><a asp-controller="App" asp-action="About">Pomoc</a></li>
+                <li><a asp-controller="App" asp-action="Contact">Kontakt</a></li>
                 <li><a asp-controller="Auth" asp-action="Logout">Wyloguj</a></li>
+            }
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <li><a asp-controller="Auth" asp-action="Login">Zaloguj</a></li>
+                <li><a asp-controller="Auth" asp-action="Register">Zarejestruj</a></li>
+                <li><a asp-controller="App" asp-action="About">Pomoc</a></li>
+                <li><a asp-controller="App" asp-action="Contact">Kontakt</a></li>
             }
         </ul>
     </div>

@@ -4,7 +4,6 @@ using FilmwebParser.Services;
 using FilmwebParser.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,13 +15,11 @@ namespace FilmwebParser.Controllers.Api
     public class FilmsController : Controller
     {
         private IFilmRepository _repository;
-        private ILogger<FilmsController> _logger;
         private IParserService _parserService;
 
-        public FilmsController(IFilmRepository repository, ILogger<FilmsController> logger, IParserService parserService)
+        public FilmsController(IFilmRepository repository, IParserService parserService)
         {
             _repository = repository;
-            _logger = logger;
             _parserService = parserService;
         }
 
@@ -36,8 +33,7 @@ namespace FilmwebParser.Controllers.Api
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Błąd podczas pobierania filmów: {ex}");
-                return BadRequest("Wystąpił błąd podczas pobierania filmów");
+                return BadRequest("Wystąpił błąd podczas pobierania listy filmów: " + ex.Message);
             }
         }
 
@@ -51,23 +47,21 @@ namespace FilmwebParser.Controllers.Api
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Błąd podczas pobierania filmów: {ex}");
-                return BadRequest("Wystąpił błąd podczas pobierania filmów");
+                return BadRequest("Wystąpił błąd podczas pobierania szczegółów filmu: " + ex.Message);
             }
         }
 
         [HttpPost("")]
         public async Task<IActionResult> Post([FromBody]FilmViewModel theFilm)
         {
+            string exception = string.Empty;
             try
             {
                 if (ModelState.IsValid)
                 {
                     var newFilm = Mapper.Map<Film>(theFilm);
                     var result = _parserService.ParseLink(newFilm.Link);
-                    if (!result.Success)
-                        _logger.LogError(result.Message);
-                    else
+                    if (result.Success)
                     {
                         newFilm.UserName = User.Identity.Name;
                         newFilm.Title = result.Title;
@@ -88,9 +82,9 @@ namespace FilmwebParser.Controllers.Api
             }
             catch (Exception ex)
             {
-                _logger.LogError("Błąd podczas zapisywania filmu: {0}", ex);
+                exception = ex.Message;
             }
-            return BadRequest("Wystąpił błąd podczas zapisywania filmu");
+            return BadRequest("Wystąpił błąd podczas zapisywania filmu: " + exception);
         }
     }
 }
