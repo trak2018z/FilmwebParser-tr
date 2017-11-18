@@ -4,19 +4,46 @@
 <div class="alert alert-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</div>
 <table class="table table-responsive table-striped">
     <tr>
-        <td>Tytuł</td>
+        <td>Tytuł polski / oryginalny</td>
         <td>{{vm.details.title}}</td>
     </tr>
     <tr>
-        <td>Rok</td>
-        <td>{{vm.details.year}}</td>
+        <td>Tytuł oryginalny</td>
+        <td>{{vm.details.originalTitle}}</td>
     </tr>
     <tr>
         <td>Okładka</td>
-        <td>{{vm.details.cover}}</td>
+        <td><a href="{{vm.details.cover}}">{{vm.details.cover}}</a></td>
+    </tr>
+    <tr>
+        <td>Reżyseria</td>
+        <td>{{vm.details.director}}</td>
+    </tr>
+    <tr>
+        <td>Scenariusz</td>
+        <td>{{vm.details.screenplay}}</td>
+    </tr>
+    <tr>
+        <td>Gatunek</td>
+        <td>{{vm.details.genre}}</td>
+    <tr>
+        <td>Produkcja</td>
+        <td>{{vm.details.country}}</td>
+    </tr>
+    <tr>
+        <td>Data wydania</td>
+        <td>{{vm.details.releaseDate}}</td>
+    </tr>
+    <tr>
+        <td>Obsada</td>
+        <td style="white-space:pre-wrap">{{vm.details.cast}}</td>
+    </tr>
+    <tr>
+        <td>Opis</td>
+        <td>{{vm.details.description}}</td>
     </tr>
     <tr>
         <td>Link</td>
-        <td>{{vm.details.link}}</td>
+        <td><a href="{{vm.details.link}}">{{vm.details.link}}</a></td>
     </tr>
 </table>

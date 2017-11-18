@@ -69,10 +69,17 @@ namespace FilmwebParser.Controllers.Api
                         _logger.LogError(result.Message);
                     else
                     {
-                        newFilm.Title = result.Title;
-                        newFilm.Year = result.Year;
-                        newFilm.Cover = result.Cover;
                         newFilm.UserName = User.Identity.Name;
+                        newFilm.Title = result.Title;
+                        newFilm.OriginalTitle = result.OriginalTitle;
+                        newFilm.Cover = result.Cover;
+                        newFilm.Director = result.Director;
+                        newFilm.Screenplay = result.Screenplay;
+                        newFilm.Genre = result.Genre;
+                        newFilm.Country = result.Country;
+                        newFilm.ReleaseDate = result.ReleaseDate;
+                        newFilm.Cast = result.Cast;
+                        newFilm.Description = result.Description;
                         _repository.AddFilm(newFilm);
                         if (await _repository.SaveChangesAsync())
                             return Created($"api/films/{newFilm.Title}", Mapper.Map<FilmViewModel>(newFilm));
