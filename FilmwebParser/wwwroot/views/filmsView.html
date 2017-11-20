@@ -5,7 +5,7 @@
         <wait-cursor display-when="vm.isBusy"></wait-cursor>
         <form novalidate name="newFilmForm" ng-submit="vm.addFilm()">
             <div class="form-group">
-                <input class="form-control" type="text" id="link" name="link" ng-model="vm.newFilm.link" required ng-pattern="/^(https?:\/\/)?(www.)?filmweb.pl\/.+$/" />
+                <input class="form-control" type="text" id="link" name="link" ng-model="vm.newFilm.link" required ng-pattern="/^https?:\/\/www.filmweb.pl\/.+$/" />
                 <span ng-show="newFilmForm.link.$error.required" class="text-warning">Pole nie może pozostać puste</span>
                 <span ng-show="newFilmForm.link.$error.pattern" class="text-warning">Nieprawidłowy link</span>
             </div>
@@ -21,11 +21,13 @@
                 <th>Tytuł:</th>
                 <th>Data dodania:</th>
                 <th></th>
+                <th></th>
             </tr>
             <tr ng-repeat="film in vm.films">
                 <td>{{film.title}}</td>
                 <td>{{film.dateAdded | date:'dd-MM-yyyy'}}</td>
                 <td><a ng-href="#/details/{{film.title}}" class="btn btn-sm btn-primary">Szczegóły</a></td>
+                <td><a ng-click="vm.downloadJson(film.title)" class="btn btn-sm btn-primary">Pobierz JSONa</a></td>
             </tr>
         </table>
     </div>

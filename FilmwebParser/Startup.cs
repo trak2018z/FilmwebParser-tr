@@ -72,6 +72,7 @@ namespace FilmwebParser
             Mapper.Initialize(config =>
             {
                 config.CreateMap<FilmViewModel, Film>().ReverseMap();
+                config.CreateMap<ShortFilmViewModel, Film>().ReverseMap();
             });
             if (env.IsEnvironment("Development"))
                 app.UseDeveloperExceptionPage();

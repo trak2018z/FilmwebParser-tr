@@ -6,3 +6,4 @@ C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\bin\Debug\netcoreapp
 C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\obj\Debug\netcoreapp1.1\FilmwebParser.AssemblyInfo.cs
 C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\obj\Debug\netcoreapp1.1\FilmwebParser.dll
 C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\obj\Debug\netcoreapp1.1\FilmwebParser.pdb
+C:\Users\DamianOS.MP5\Documents\filmwebparser\FilmwebParser\obj\Debug\netcoreapp1.1\FilmwebParser.csprojResolveAssemblyReference.cache

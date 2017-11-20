@@ -13,7 +13,7 @@
                 angular.copy(response.data, vm.films);
             },
             function (error) {
-                vm.errorMessage = "Wystąpił błąd podczas pobierania listy filmów: " + error;
+                vm.errorMessage = error.data;
             })
             .finally(function () {
                 vm.isBusy = false;
@@ -27,7 +27,21 @@
                     vm.newFilm = {};
                 },
                 function (error) {
-                    vm.errorMessage = "Wystąpił błąd podczas zapisywania filmu: " + error;
+                    vm.errorMessage = error.data;
+                })
+                .finally(function () {
+                    vm.isBusy = false;
+                });
+        }
+        vm.downloadJson = function (filmTitle) {
+            vm.isBusy = true;
+            vm.errorMessage = "";
+            $http.get("/api/films/" + filmTitle)
+                .then(function (response) {
+                    download(response.data, filmTitle + '.json', 'text/json');
+                },
+                function (error) {
+                    vm.errorMessage = error.data;
                 })
                 .finally(function () {
                     vm.isBusy = false;
@@ -35,3 +49,12 @@
         }
     }
 })();
+
+function download(jsonData, fileName, type) {
+    var readyJson = JSON.stringify(jsonData);
+    var a = document.createElement("a");
+    var file = new Blob([readyJson], { type: type });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+}

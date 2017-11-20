@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Content Include="wwwroot\css\site.css" />
-    <Content Include="wwwroot\img\logo.jpg" />
     <Content Include="wwwroot\js\app-films.js" />
     <Content Include="wwwroot\js\filmDetailController.js" />
     <Content Include="wwwroot\js\filmsController.js" />

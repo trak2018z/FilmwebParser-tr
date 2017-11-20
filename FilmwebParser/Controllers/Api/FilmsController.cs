@@ -29,7 +29,7 @@ namespace FilmwebParser.Controllers.Api
             try
             {
                 var results = _repository.GetFilmsByUsername(User.Identity.Name);
-                return Ok(Mapper.Map<IEnumerable<FilmViewModel>>(results));
+                return Ok(Mapper.Map<IEnumerable<ShortFilmViewModel>>(results));
             }
             catch (Exception ex)
             {

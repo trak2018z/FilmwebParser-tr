@@ -15,6 +15,7 @@ namespace FilmwebParser.Models
 
         public void AddFilm(Film film)
         {
+            //if (!_context.Films.Any(t => t.Title == film.Title))
             _context.Add(film);
         }
 
