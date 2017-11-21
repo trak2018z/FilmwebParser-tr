@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace FilmwebParser.Controllers.Api
@@ -76,7 +77,10 @@ namespace FilmwebParser.Controllers.Api
                         newFilm.Description = result.Description;
                         _repository.AddFilm(newFilm);
                         if (await _repository.SaveChangesAsync())
-                            return Created($"api/films/{newFilm.Title}", Mapper.Map<FilmViewModel>(newFilm));
+                        {
+                            string encodedUrl = WebUtility.UrlEncode($"api/films/{newFilm.Title}");
+                            return Created(encodedUrl, Mapper.Map<FilmViewModel>(newFilm));
+                        }
                     }
                 }
             }
