@@ -13,10 +13,17 @@ namespace FilmwebParser.Models
             _context = context;
         }
 
-        public void AddFilm(Film film)
+        public string AddFilm(Film film)
         {
-            if (!_context.Films.Any(t => t.Title == film.Title && t.UserName == film.UserName))
+            if (film.Title == null)
+                return "W podanym linku nie wykryto filmu";
+            else if (!_context.Films.Any(t => t.Title == film.Title && t.UserName == film.UserName))
+            {
                 _context.Add(film);
+                return string.Empty;
+            }
+            else
+                return "Podany film znajduje się już w bazie";
         }
 
         public Film GetFilmByTitle(string filmTitle)
