@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
@@ -31,19 +30,14 @@ namespace FilmwebParser
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_config);
-            if (_env.IsEnvironment("Development"))
-                services.AddScoped<IMailService, DebugMailService>();
+            services.AddScoped<IMailService, MailService>();
+            services.AddScoped<ISettingsService, SettingsService>();
             services.AddScoped<IParserService, FilmParserService>();
             services.AddDbContext<FilmContext>();
             services.AddTransient<ParseLinkResult>();
             services.AddScoped<IFilmRepository, FilmRepository>();
-            services.AddTransient<FilmContextSeedData>();
             services
-                .AddMvc(config =>
-                {
-                    if (_env.IsProduction())
-                        config.Filters.Add(new RequireHttpsAttribute());
-                })
+                .AddMvc()
                 .AddJsonOptions(config =>
                 {
                     config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -67,7 +61,7 @@ namespace FilmwebParser
             }).AddEntityFrameworkStores<FilmContext>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, FilmContextSeedData seeder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             Mapper.Initialize(config =>
             {
@@ -86,7 +80,6 @@ namespace FilmwebParser
                     defaults: new { controller = "App", action = "Index" }
                     );
             });
-            //seeder.EnsureSeedData().Wait();
         }
     }
 }

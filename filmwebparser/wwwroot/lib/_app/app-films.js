@@ -1,0 +1,1 @@
+!function(){"use strict";angular.module("app-films",["simpleControls","ngRoute"]).config(["$routeProvider",function(l){l.when("/",{controller:"filmsController",controllerAs:"vm",templateUrl:"/views/filmsView.html"}),l.when("/details/:title",{controller:"filmDetailController",controllerAs:"vm",templateUrl:"/views/filmDetailView.html"}),l.otherwise({redirectTo:"/"})}])}();

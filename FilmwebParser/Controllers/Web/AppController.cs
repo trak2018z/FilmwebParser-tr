@@ -1,23 +1,19 @@
-﻿using FilmwebParser.Models;
-using FilmwebParser.Services;
+﻿using FilmwebParser.Services;
 using FilmwebParser.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace FilmwebParser.Controllers.Web
 {
     public class AppController : Controller
     {
         private IMailService _mailService;
-        private IConfigurationRoot _config;
-        private IFilmRepository _repository;
+        private ISettingsService _settingsService;
 
-        public AppController(IMailService mailService, IConfigurationRoot config, IFilmRepository repository)
+        public AppController(IMailService mailService, ISettingsService settingsService)
         {
             _mailService = mailService;
-            _config = config;
-            _repository = repository;
+            _settingsService = settingsService;
         }
 
         public IActionResult Index()
@@ -39,22 +35,34 @@ namespace FilmwebParser.Controllers.Web
         [HttpPost]
         public IActionResult Contact(ContactViewModel model)
         {
-            if (model.Email.Contains("gmail.com"))
-                ModelState.AddModelError("", "Skrzynka pocztowa gmail.com nie jest obsługiwana!");
             if (ModelState.IsValid)
             {
-                _mailService.SendMail(_config["MailSettings:ToAddress"], model.Email, "FilmwebParser", model.Message);
+                string sendResult = _mailService.SendMail(model.Name, model.Email, model.Subject, model.Message);
                 ModelState.Clear();
-                ViewBag.UserMessage = "Wiadomość została wysłana!";
+                ViewBag.UserMessage = sendResult;
             }
             return View();
         }
 
-        public IActionResult About()
+        [Authorize]
+        [HttpPost]
+        public IActionResult Settings(SettingsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string changeResult = _settingsService.ChangeAvatar(User.Identity, model.Avatar);
+                ModelState.Clear();
+                ViewBag.UserMessage = changeResult;
+            }
+            return View();
+        }
+
+        public IActionResult Help()
         {
             return View();
         }
 
+        [Authorize]
         public IActionResult Settings()
         {
             return View();

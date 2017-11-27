@@ -55,7 +55,6 @@ namespace FilmwebParser.Controllers.Api
         [HttpPost("")]
         public async Task<IActionResult> Post([FromBody]FilmViewModel theFilm)
         {
-            string exception = string.Empty;
             try
             {
                 if (ModelState.IsValid)
@@ -75,20 +74,24 @@ namespace FilmwebParser.Controllers.Api
                         newFilm.ReleaseDate = result.ReleaseDate;
                         newFilm.Cast = result.Cast;
                         newFilm.Description = result.Description;
-                        _repository.AddFilm(newFilm);
-                        if (await _repository.SaveChangesAsync())
+                        string postResult = _repository.AddFilm(newFilm);
+                        if (postResult == string.Empty)
                         {
-                            string encodedUrl = WebUtility.UrlEncode($"api/films/{newFilm.Title}");
-                            return Created(encodedUrl, Mapper.Map<FilmViewModel>(newFilm));
+                            if (await _repository.SaveChangesAsync())
+                            {
+                                string encodedUrl = WebUtility.UrlEncode($"api/films/{newFilm.Title}");
+                                return Created(encodedUrl, Mapper.Map<FilmViewModel>(newFilm));
+                            }
                         }
+                        else ModelState.AddModelError("", postResult);
                     }
                 }
             }
             catch (Exception ex)
             {
-                exception = ex.Message;
+                return BadRequest(ex.Message);
             }
-            return BadRequest("Wystąpił błąd podczas zapisywania filmu: " + exception);
+            return BadRequest(ModelState);
         }
     }
 }

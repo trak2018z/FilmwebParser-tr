@@ -4,10 +4,18 @@
 @section Scripts{
     <script src="~/lib/angular/angular.min.js"></script>
     <script src="~/lib/angular-route/angular-route.min.js"></script>
-    <script src="~/js/simpleControls.js"></script>
-    <script src="~/js/app-films.js"></script>
-    <script src="~/js/filmsController.js"></script>
-    <script src="~/js/filmDetailController.js"></script>
+    <environment names="Development">
+        <script src="~/js/simpleControls.js"></script>
+        <script src="~/js/app-films.js"></script>
+        <script src="~/js/filmsController.js"></script>
+        <script src="~/js/filmDetailController.js"></script>
+    </environment>
+    <environment names="Production,Staging">
+        <script src="~/lib/_app/simpleControls.js"></script>
+        <script src="~/lib/_app/app-films.js"></script>
+        <script src="~/lib/_app/filmsController.js"></script>
+        <script src="~/lib/_app/filmDetailController.js"></script>
+    </environment>
 }
 
 <div class="row" ng-app="app-films">

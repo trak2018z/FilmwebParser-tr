@@ -2,6 +2,7 @@
 using FilmwebParser.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FilmwebParser.Controllers
@@ -64,6 +65,7 @@ namespace FilmwebParser.Controllers
                 var signUpResult = await _userManager.CreateAsync(user, vm.Password);
                 if (signUpResult.Succeeded)
                 {
+                    await _userManager.AddClaimAsync(user, new Claim("Avatar", "http://funkyimg.com/i/2zK9A.png"));
                     await _signInManager.SignInAsync(user, false);
                     if (string.IsNullOrWhiteSpace(returnUrl))
                         return RedirectToAction("Films", "App");

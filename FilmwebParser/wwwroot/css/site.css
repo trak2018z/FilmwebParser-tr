@@ -1,6 +1,5 @@
 ﻿.avatar {
     max-width: 50px;
-    border: 1px solid #222;
     padding: 3px;
 }
 
@@ -49,4 +48,12 @@
     border-radius: 0;
     background-color: #2A2D34;
     border: 0;
+}
+
+h2, h3, h4, p {
+    padding-bottom: 15px;
+}
+
+#notReady {
+    color: red;
 }
