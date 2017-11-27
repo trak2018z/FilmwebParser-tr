@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FilmwebParser.Controllers.Api
@@ -29,7 +30,14 @@ namespace FilmwebParser.Controllers.Api
         {
             try
             {
-                var results = _repository.GetFilmsByUsername(User.Identity.Name);
+                IEnumerable<Film> results;
+                if (string.IsNullOrWhiteSpace(User.Identity.Name))
+                {
+                    string userName = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    results = _repository.GetFilmsByUsername(userName);
+                }
+                else
+                    results = _repository.GetFilmsByUsername(User.Identity.Name);
                 return Ok(Mapper.Map<IEnumerable<ShortFilmViewModel>>(results));
             }
             catch (Exception ex)
@@ -74,13 +82,8 @@ namespace FilmwebParser.Controllers.Api
                         newFilm.ReleaseDate = result.ReleaseDate;
                         newFilm.Cast = result.Cast;
                         newFilm.Description = result.Description;
-<<<<<<< HEAD
                         string postResult = _repository.AddFilm(newFilm);
                         if (postResult == string.Empty)
-=======
-                        string wynik = _repository.AddFilm(newFilm);
-                        if (wynik == string.Empty)
->>>>>>> a967dfb8bed64b7b1867f15e4d59df3dd4bb507d
                         {
                             if (await _repository.SaveChangesAsync())
                             {
@@ -88,11 +91,7 @@ namespace FilmwebParser.Controllers.Api
                                 return Created(encodedUrl, Mapper.Map<FilmViewModel>(newFilm));
                             }
                         }
-<<<<<<< HEAD
                         else ModelState.AddModelError("", postResult);
-=======
-                        else ModelState.AddModelError("", wynik);
->>>>>>> a967dfb8bed64b7b1867f15e4d59df3dd4bb507d
                     }
                 }
             }
