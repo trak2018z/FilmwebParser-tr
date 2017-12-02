@@ -33,69 +33,45 @@ namespace FilmwebParser.Services
                 result.Cover = cover.Attributes["content"].Value;
             }
             catch { }
-            var table = document.DocumentNode.SelectSingleNode("//div[contains(@class, 'filmInfo')]/table");
             try
             {
-                string htmlWithDirectors = table.SelectNodes("tr/td")[0].InnerHtml;
-                List<string> directors = new List<string>();
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(htmlWithDirectors);
-                foreach (HtmlNode li in doc.DocumentNode.SelectNodes("//li"))
-                    directors.Add(HtmlEntity.DeEntitize(li.InnerText));
-                result.Director = String.Join(", ", directors);
-            }
-            catch { }
-            try
-            {
-                string htmlWithScreenplays = table.SelectNodes("tr/td")[1].InnerHtml;
-                List<string> screenplays = new List<string>();
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(htmlWithScreenplays);
-                foreach (HtmlNode li in doc.DocumentNode.SelectNodes("//li"))
-                    screenplays.Add(HtmlEntity.DeEntitize(li.InnerText));
-                result.Screenplay = String.Join(", ", screenplays);
-            }
-            catch { }
-            try
-            {
-                string htmlWithGenres = table.SelectNodes("tr/td")[3].InnerHtml;
-                List<string> genres = new List<string>();
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(htmlWithGenres);
-                foreach (HtmlNode li in doc.DocumentNode.SelectNodes("//li"))
-                    genres.Add(HtmlEntity.DeEntitize(li.InnerText));
-                result.Genre = String.Join(", ", genres);
-            }
-            catch { }
-            try
-            {
-                string htmlWithCountries = table.SelectNodes("tr/td")[4].InnerHtml;
-                List<string> countries = new List<string>();
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(htmlWithCountries);
-                foreach (HtmlNode li in doc.DocumentNode.SelectNodes("//li"))
-                    countries.Add(HtmlEntity.DeEntitize(li.InnerText));
-                result.Country = String.Join(", ", countries);
-            }
-            catch { }
-            try
-            {
-                string htmlWithDates = table.SelectNodes("tr/td")[5].InnerHtml;
-                List<string> dates = new List<string>();
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(htmlWithDates);
-                foreach (HtmlNode li in doc.DocumentNode.SelectNodes("//a//span"))
-                    dates.Add(HtmlEntity.DeEntitize(li.InnerText.TrimStart().TrimEnd()));
-                if (dates.Count == 2)
+                var table = document.DocumentNode.SelectSingleNode("//div[contains(@class, 'filmInfo')]/table");
+                foreach (var tableItem in table.ChildNodes)
                 {
-                    dates[0] = dates[0] + " (Polska)";
-                    dates[1] = dates[1] + " (świat)";
-                    result.ReleaseDate = String.Join(", ", dates);
-                }
-                else
-                {
-                    dates[0] = dates[0] + " (świat)";
-                    result.ReleaseDate = String.Join(", ", dates);
+                    switch (tableItem.ChildNodes[0].InnerText)
+                    {
+                        case "reżyseria:":
+                            result.Director = GetDataFromTable(tableItem.ChildNodes[1].LastChild.InnerHtml);
+                            break;
+                        case "scenariusz:":
+                            result.Screenplay = GetDataFromTable(tableItem.ChildNodes[1].LastChild.InnerHtml);
+                            break;
+                        case "gatunek:":
+                            result.Genre = GetDataFromTable(tableItem.ChildNodes[1].LastChild.InnerHtml);
+                            break;
+                        case "produkcja:":
+                            result.Country = GetDataFromTable(tableItem.ChildNodes[1].LastChild.InnerHtml);
+                            break;
+                        case "premiera:":
+                            var htmlWithDates = tableItem.ChildNodes[1].LastChild.InnerHtml;
+                            List<string> dates = new List<string>();
+                            HtmlDocument doc = new HtmlDocument();
+                            doc.LoadHtml(htmlWithDates);
+                            foreach (HtmlNode li in doc.DocumentNode.SelectNodes("//span"))
+                                dates.Add(HtmlEntity.DeEntitize(li.InnerText.TrimStart().TrimEnd()));
+                            if (dates.Count == 2)
+                            {
+                                dates[0] = dates[0] + " (Polska)";
+                                dates[1] = dates[1] + " (świat)";
+                                result.ReleaseDate = String.Join(", ", dates);
+                            }
+                            else
+                            {
+                                dates[0] = dates[0] + " (świat)";
+                                result.ReleaseDate = String.Join(", ", dates);
+                            }
+                            break;
+                    }
                 }
             }
             catch { }
@@ -118,6 +94,16 @@ namespace FilmwebParser.Services
             result.Success = true;
             result.Message = "SUKCES";
             return result;
+        }
+
+        private static string GetDataFromTable(string htmlWithData)
+        {
+            List<string> listWithData = new List<string>();
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(htmlWithData);
+            foreach (HtmlNode li in doc.DocumentNode.SelectNodes("//li"))
+                listWithData.Add(HtmlEntity.DeEntitize(li.InnerText));
+            return String.Join(", ", listWithData);
         }
     }
 }

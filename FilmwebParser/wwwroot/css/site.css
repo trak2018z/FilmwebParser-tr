@@ -1,6 +1,7 @@
 ﻿.avatar {
-    max-width: 50px;
-    padding: 3px;
+    height: 60px;
+    max-width: 100px;
+    padding: 10px;
 }
 
 .menu {
