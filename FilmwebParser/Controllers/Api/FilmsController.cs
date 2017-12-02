@@ -71,7 +71,10 @@ namespace FilmwebParser.Controllers.Api
                     var result = _parserService.ParseLink(newFilm.Link);
                     if (result.Success)
                     {
-                        newFilm.UserName = User.Identity.Name;
+                        if (string.IsNullOrWhiteSpace(User.Identity.Name))
+                            newFilm.UserName = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                        else
+                            newFilm.UserName = User.Identity.Name;
                         newFilm.Title = result.Title;
                         newFilm.OriginalTitle = result.OriginalTitle;
                         newFilm.Cover = result.Cover;
